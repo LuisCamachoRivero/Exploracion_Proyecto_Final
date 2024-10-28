@@ -1,0 +1,119 @@
+[33mcommit 110f859b1f86c2a355b8c20afddd946a57101718[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 05:21:38 2024 +0000
+
+    Web  Scra[[omg 1.2
+
+[33mcommit 32e63f2933bf897fb5084aecb40c6c7b2ae29eeb[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 05:18:53 2024 +0000
+
+    Web Scrapping 1.1
+
+[33mcommit 5a19141784ecbb418ae3a45d63191e088983abef[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 05:15:05 2024 +0000
+
+    Web Scrapping 1.0
+
+[33mcommit 5323ec6663ca97032da08730d245000669f0d077[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 02:06:08 2024 -0300
+
+    Update .gitignore
+
+[33mcommit f09bbb940185920663604f25f5e09a88ba74640c[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 01:53:36 2024 -0300
+
+    Update requirements.txt
+
+[33mcommit 18871e02620d668268ac19ed77e70ab11c99fbe9[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 03:59:58 2024 +0000
+
+    Exploracion Web Scrapping 0.3
+
+[33mcommit 9366d4fc69e2308be791c31d6e8232bb748a3a0b[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 03:42:24 2024 +0000
+
+    Exploracion Webscrapping 0.2
+
+[33mcommit 75782e48c327e98bb8142523a5ca8cb0b156215e[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 03:34:42 2024 +0000
+
+    Exploracion webscrapping
+
+[33mcommit 6bf1428c9d6f30b0b78ce82adb025879f12843fe[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 28 03:33:43 2024 +0000
+
+    Realizando WebScrapping
+
+[33mcommit 9a48b77a6eb86c75a1784599575368cf23c0fd8a[m
+Merge: 1c6d732 b3c0f33
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Tue Oct 22 23:52:25 2024 -0300
+
+    Merge pull request #2 from bartowen/main
+    
+    holanda
+
+[33mcommit b3c0f33e5b29d6dfbe755d5906dc4038b3179a49[m
+Author: Felipe Browne <153402996+bartowen@users.noreply.github.com>
+Date:   Wed Oct 23 02:49:31 2024 +0000
+
+    holanda
+
+[33mcommit 1c6d7321263ec06de89b24b6548c74b7671fd866[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Wed Oct 23 02:41:35 2024 +0000
+
+    Prueba commit
+
+[33mcommit daf7b6b89bd01323ed409e58e08fab65f3408244[m
+Merge: b866e55 4afca7c
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Tue Oct 22 12:26:39 2024 -0300
+
+    Merge pull request #1 from bartowen/main
+    
+    df_pib_regional
+
+[33mcommit 4afca7c0f36058da3ba8bb318a1f11414afafb82[m
+Author: Felipe Browne <153402996+bartowen@users.noreply.github.com>
+Date:   Tue Oct 22 11:04:48 2024 +0000
+
+    proporcion pib por destino (?)
+
+[33mcommit 1d566e5b31c292629b52fb0e84b28c63115ec24b[m
+Author: Felipe Browne <153402996+bartowen@users.noreply.github.com>
+Date:   Tue Oct 22 10:16:37 2024 +0000
+
+    unificar region destino
+
+[33mcommit 92867cfbb8eae255312073562c32298eaabd1710[m
+Author: Felipe Browne <153402996+bartowen@users.noreply.github.com>
+Date:   Mon Oct 21 19:25:26 2024 +0000
+
+    df_pib_regional
+
+[33mcommit b866e55576d05c8609d3d4e1f47d6472ffd4956b[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Mon Oct 7 22:06:30 2024 -0300
+
+    Prueba VSC desktop
+
+[33mcommit 6616796dbfae663e80ebcec9d16a9c27588f2967[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Tue Oct 1 13:47:28 2024 +0000
+
+    Exploracion PF DS 0.0
+
+[33mcommit bed405157b0a64cc4d1df7a2b244ca01681c6b11[m
+Author: LuisCamachoRivero <camachoriveroluis@gmail.com>
+Date:   Tue Oct 1 10:35:54 2024 -0300
+
+    Initial commit
