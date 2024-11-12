@@ -13,6 +13,14 @@ with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/proces
     region_destino_dict = json.load(f)
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_temp_dict.json', 'r', encoding='utf-8') as f:
     region_temp_dict = json.load(f)
+with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_pib_dict.json', 'r', encoding='utf-8') as f:
+    region_pib_dict = json.load(f)
+with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/cut_comuna_dict.json', 'r', encoding='utf-8') as f:
+    cut_comuna_dict = json.load(f)
+with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/cut_provincia_dict.json', 'r', encoding='utf-8') as f:
+    cut_provincia_dict = json.load(f)
+with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/cut_region_dict.json', 'r', encoding='utf-8') as f:
+    cut_region_dict = json.load(f)
 
 def obtener_info(region, region_dict, tipo='provincias', provincia=None):
     if region not in region_dict:
@@ -43,6 +51,10 @@ def consultar_temporada(region, mes, region_mes_dict_str_keys):
     clave_str = f"({region}, {mes})"
     temporada = region_mes_dict_str_keys.get(clave_str, "No disponible")
     return temporada
+
+def buscar_cut(diccionario, entidad):
+    resultado = diccionario.get(entidad, "La entidad no fue encontrada en el diccionario.")
+    return resultado
 
 
 
@@ -99,42 +111,52 @@ st.write("You selected:", option6)
 
 cantidad_meses_a_predecir = st.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
 mes_anio = calcular_meses(cantidad_meses_a_predecir)
+
 temporada = consultar_temporada(option, mes_anio[0][0], region_temp_dict)
-pib_origen = 
-pib_destino = 
+
+proyeccion_pib_origen = st.slider('Proyección varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1)
+pib_origen = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
+
+proyeccion_pib_destino = st.slider('Proyección varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1)
+pib_destino = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
+
+
 
 consulta = pd.DataFrame({
-    'CUT Comuna Origen': [option6],
-    'CUT Provincia Origen': [option5],
-    'CUT Region Origen': [option4],
-    'CUT Comuna Destino': [option3],
-    'CUT Provincia Destino': [option2],
-    'CUT Region Destino': [option],
+    'Comuna Origen': [option6],
+    'Provincia Origen': [option5],
+    'Region Origen': [option4],
+    'Comuna Destino': [option3],
+    'Provincia Destino': [option2],
+    'Region Destino': [option],
+    'Anio': [mes_anio[0][1]],
+    'Mes': [mes_anio[0][0]],
+    'Temporada': [temporada],
+    'PIB Region Origen': [pib_origen],
+    'PIB Region Destino': [pib_destino],
+    'covid_periodo_num': [0],
+})
+
+
+consulta_trans = pd.DataFrame({
+    'CUT Comuna Origen': [buscar_cut(cut_comuna_dict, option6)],
+    'CUT Provincia Origen': [buscar_cut(cut_provincia_dict, option5)],
+    'CUT Region Origen': [buscar_cut(cut_region_dict, option4)],
+    'CUT Comuna Destino': [buscar_cut(cut_comuna_dict, option3)],
+    'CUT Provincia Destino': [buscar_cut(cut_provincia_dict, option2)],
+    'CUT Region Destino': [buscar_cut(cut_region_dict, option)],
     'Anio': [mes_anio[0][1]],
     'CUT Mes': [mes_anio[0][0]],
     'CUT Temporada': [temporada],
-    'PIB Region Origen': [1061.580205],
-    'PIB Region Destino': [1061.580205],
+    'PIB Region Origen': [pib_origen],
+    'PIB Region Destino': [pib_destino],
     'covid_periodo_num': [0],
 })
 
 st.write("consulta:", consulta)
+st.write("consulta:", consulta_trans)
 
-datos_entrada = pd.DataFrame({
-    'CUT Comuna Origen': [1101],
-    'CUT Provincia Origen': [11],
-    'CUT Region Origen': [1],
-    'CUT Comuna Destino': [1402],
-    'CUT Provincia Destino': [14],
-    'CUT Region Destino': [1],
-    'Anio': [2019],
-    'CUT Mes': [1],
-    'CUT Temporada': [1],
-    'PIB Region Origen': [1061.580205],
-    'PIB Region Destino': [1061.580205],
-    'covid_periodo_num': [0],
-})
 
-prediccion = model.predict(datos_entrada)
+prediccion = model.predict(consulta_trans)
 
 st.write(f'Prediccion de Viajes Ocasionales: {prediccion[0]}')
