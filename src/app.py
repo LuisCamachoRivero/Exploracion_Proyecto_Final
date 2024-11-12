@@ -11,39 +11,38 @@ with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/proces
     region_origen_dict = json.load(f)
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_destino_dict.json', 'r', encoding='utf-8') as f:
     region_destino_dict = json.load(f)
+with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_temp_dict.json', 'r', encoding='utf-8') as f:
+    region_temp_dict = json.load(f)
 
 def obtener_info(region, region_dict, tipo='provincias', provincia=None):
     if region not in region_dict:
         return f"La región '{region}' no se encuentra en el diccionario."
-    
     if tipo == 'provincias' and provincia is None:
         return list(region_dict[region].keys())
-    
     elif tipo == 'comunas' and provincia is None:
         comunas = []
         for comunas_provincia in region_dict[region].values():
             comunas.extend(comunas_provincia)
         return comunas
-    
     elif tipo == 'comunas' and provincia is not None:
         if provincia not in region_dict[region]:
             return f"La provincia '{provincia}' no se encuentra en la región '{region}'."
         return region_dict[region][provincia]
-
     else:
         return "Tipo no válido. Usa 'provincias' o 'comunas'."
     
 def calcular_meses(cantidad_meses):
     fecha_inicial = datetime(2024, 7, 1)
-    
     meses_anios = []
-
     for i in range(cantidad_meses):
         nueva_fecha = fecha_inicial + relativedelta(months=i)
-        
         meses_anios.append((nueva_fecha.month, nueva_fecha.year))
-        
     return meses_anios
+
+def consultar_temporada(region, mes, region_mes_dict_str_keys):
+    clave_str = f"({region}, {mes})"
+    temporada = region_mes_dict_str_keys.get(clave_str, "No disponible")
+    return temporada
 
 
 
@@ -99,8 +98,27 @@ option6 = st.selectbox(
 st.write("You selected:", option6)
 
 cantidad_meses_a_predecir = st.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
-resultado = calcular_meses(cantidad_meses_a_predecir)
+mes_anio = calcular_meses(cantidad_meses_a_predecir)
+temporada = consultar_temporada(option, mes_anio[0][0], region_temp_dict)
+pib_origen = 
+pib_destino = 
 
+consulta = pd.DataFrame({
+    'CUT Comuna Origen': [option6],
+    'CUT Provincia Origen': [option5],
+    'CUT Region Origen': [option4],
+    'CUT Comuna Destino': [option3],
+    'CUT Provincia Destino': [option2],
+    'CUT Region Destino': [option],
+    'Anio': [mes_anio[0][1]],
+    'CUT Mes': [mes_anio[0][0]],
+    'CUT Temporada': [temporada],
+    'PIB Region Origen': [1061.580205],
+    'PIB Region Destino': [1061.580205],
+    'covid_periodo_num': [0],
+})
+
+st.write("consulta:", consulta)
 
 datos_entrada = pd.DataFrame({
     'CUT Comuna Origen': [1101],
