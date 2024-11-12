@@ -1,0 +1,491 @@
+{
+    "Antofagasta": {
+        "Antofagasta": [
+            "Antofagasta",
+            "Mejillones",
+            "Sierra Gorda",
+            "Taltal"
+        ],
+        "El Loa": [
+            "Calama",
+            "Ollagüe",
+            "San Pedro de Atacama"
+        ],
+        "Tocopilla": [
+            "Tocopilla",
+            "María Elena"
+        ]
+    },
+    "Arica y Parinacota": {
+        "Arica": [
+            "Arica",
+            "Camarones"
+        ],
+        "Parinacota": [
+            "Putre",
+            "General Lagos"
+        ]
+    },
+    "Atacama": {
+        "Chañaral": [
+            "Chañaral",
+            "Diego de Almagro"
+        ],
+        "Copiapó": [
+            "Copiapó",
+            "Caldera",
+            "Tierra Amarilla"
+        ],
+        "Huasco": [
+            "Vallenar",
+            "Alto del Carmen",
+            "Freirina",
+            "Huasco"
+        ]
+    },
+    "Aysén del General Carlos Ibáñez del Campo": {
+        "Aysén": [
+            "Aisén",
+            "Cisnes",
+            "Guaitecas"
+        ],
+        "Capitán Prat": [
+            "Cochrane",
+            "O'Higgins",
+            "Tortel"
+        ],
+        "Coihaique": [
+            "Coihaique",
+            "Lago Verde"
+        ],
+        "General Carrera": [
+            "Chile Chico",
+            "Río Ibáñez"
+        ]
+    },
+    "Biobío": {
+        "Arauco": [
+            "Lebu",
+            "Arauco",
+            "Cañete",
+            "Contulmo",
+            "Curanilahue",
+            "Los Alamos",
+            "Tirúa"
+        ],
+        "Biobío": [
+            "Los Angeles",
+            "Antuco",
+            "Cabrero",
+            "Laja",
+            "Mulchén",
+            "Nacimiento",
+            "Negrete",
+            "Quilaco",
+            "Quilleco",
+            "San Rosendo",
+            "Santa Bárbara",
+            "Tucapel",
+            "Yumbel",
+            "Alto Biobío"
+        ],
+        "Concepción": [
+            "Concepción",
+            "Coronel",
+            "Chiguayante",
+            "Florida",
+            "Hualqui",
+            "Lota",
+            "Penco",
+            "San Pedro de la Paz",
+            "Santa Juana",
+            "Talcahuano",
+            "Tomé",
+            "Hualpén"
+        ]
+    },
+    "Coquimbo": {
+        "Choapa": [
+            "Illapel",
+            "Canela",
+            "Los Vilos",
+            "Salamanca"
+        ],
+        "Elqui": [
+            "La Serena",
+            "Coquimbo",
+            "Andacollo",
+            "La Higuera",
+            "Paiguano",
+            "Vicuña"
+        ],
+        "Limarí": [
+            "Ovalle",
+            "Combarbalá",
+            "Monte Patria",
+            "Punitaqui",
+            "Río Hurtado"
+        ]
+    },
+    "La Araucanía": {
+        "Cautín": [
+            "Temuco",
+            "Carahue",
+            "Cunco",
+            "Curarrehue",
+            "Freire",
+            "Galvarino",
+            "Gorbea",
+            "Lautaro",
+            "Loncoche",
+            "Melipeuco",
+            "Nueva Imperial",
+            "Padre Las Casas",
+            "Perquenco",
+            "Pitrufquén",
+            "Pucón",
+            "Saavedra",
+            "Teodoro Schmidt",
+            "Toltén",
+            "Vilcún",
+            "Villarrica",
+            "Cholchol"
+        ],
+        "Malleco": [
+            "Angol",
+            "Collipulli",
+            "Curacautín",
+            "Ercilla",
+            "Lonquimay",
+            "Los Sauces",
+            "Lumaco",
+            "Purén",
+            "Renaico",
+            "Traiguén",
+            "Victoria"
+        ]
+    },
+    "Libertador Gral. Bernardo O'Higgins": {
+        "Cachapoal": [
+            "Rancagua",
+            "Codegua",
+            "Coinco",
+            "Coltauco",
+            "Doñihue",
+            "Graneros",
+            "Las Cabras",
+            "Machalí",
+            "Malloa",
+            "Mostazal",
+            "Olivar",
+            "Peumo",
+            "Pichidegua",
+            "Quinta de Tilcoco",
+            "Rengo",
+            "Requínoa",
+            "San Vicente"
+        ],
+        "Cardenal Caro": [
+            "Pichilemu",
+            "La Estrella",
+            "Litueche",
+            "Marchihue",
+            "Navidad",
+            "Paredones"
+        ],
+        "Colchagua": [
+            "San Fernando",
+            "Chépica",
+            "Chimbarongo",
+            "Lolol",
+            "Nancagua",
+            "Palmilla",
+            "Peralillo",
+            "Placilla",
+            "Pumanque",
+            "Santa Cruz"
+        ]
+    },
+    "Los Lagos": {
+        "Chiloé": [
+            "Castro",
+            "Ancud",
+            "Chonchi",
+            "Curaco de Vélez",
+            "Dalcahue",
+            "Puqueldón",
+            "Queilén",
+            "Quellón",
+            "Quemchi",
+            "Quinchao"
+        ],
+        "Llanquihue": [
+            "Puerto Montt",
+            "Calbuco",
+            "Cochamó",
+            "Fresia",
+            "Frutillar",
+            "Los Muermos",
+            "Llanquihue",
+            "Maullín",
+            "Puerto Varas"
+        ],
+        "Osorno": [
+            "Osorno",
+            "Puerto Octay",
+            "Purranque",
+            "Puyehue",
+            "Río Negro",
+            "San Juan de la Costa",
+            "San Pablo"
+        ],
+        "Palena": [
+            "Chaitén",
+            "Futaleufú",
+            "Hualaihué",
+            "Palena"
+        ]
+    },
+    "Los Ríos": {
+        "Ranco": [
+            "La Unión",
+            "Futrono",
+            "Lago Ranco",
+            "Río Bueno"
+        ],
+        "Valdivia": [
+            "Valdivia",
+            "Corral",
+            "Lanco",
+            "Los Lagos",
+            "Máfil",
+            "Mariquina",
+            "Paillaco",
+            "Panguipulli"
+        ]
+    },
+    "Magallanes y de la Antártica Chilena": {
+        "Antártica Chilena": [
+            "Cabo de Hornos"
+        ],
+        "Magallanes": [
+            "Punta Arenas",
+            "Laguna Blanca",
+            "Río Verde",
+            "San Gregorio"
+        ],
+        "Tierra del Fuego": [
+            "Porvenir",
+            "Primavera",
+            "Timaukel"
+        ],
+        "Ultima Esperanza": [
+            "Natales",
+            "Torres del Paine"
+        ]
+    },
+    "Maule": {
+        "Cauquenes": [
+            "Cauquenes",
+            "Chanco",
+            "Pelluhue"
+        ],
+        "Curicó": [
+            "Curicó",
+            "Hualañé",
+            "Licantén",
+            "Molina",
+            "Rauco",
+            "Romeral",
+            "Sagrada Familia",
+            "Teno",
+            "Vichuquén"
+        ],
+        "Linares": [
+            "Linares",
+            "Colbún",
+            "Longaví",
+            "Parral",
+            "Retiro",
+            "San Javier",
+            "Villa Alegre",
+            "Yerbas Buenas"
+        ],
+        "Talca": [
+            "Talca",
+            "Constitución",
+            "Curepto",
+            "Empedrado",
+            "Maule",
+            "Pelarco",
+            "Pencahue",
+            "Río Claro",
+            "San Clemente",
+            "San Rafael"
+        ]
+    },
+    "Metropolitana de Santiago": {
+        "Chacabuco": [
+            "Colina",
+            "Lampa",
+            "Tiltil"
+        ],
+        "Cordillera": [
+            "Puente Alto",
+            "Pirque",
+            "San José de Maipo"
+        ],
+        "Maipo": [
+            "San Bernardo",
+            "Buin",
+            "Calera de Tango",
+            "Paine"
+        ],
+        "Melipilla": [
+            "Melipilla",
+            "Alhué",
+            "Curacaví",
+            "María Pinto",
+            "San Pedro"
+        ],
+        "Santiago": [
+            "Santiago",
+            "Cerrillos",
+            "Cerro Navia",
+            "Conchalí",
+            "El Bosque",
+            "Estación Central",
+            "Huechuraba",
+            "Independencia",
+            "La Cisterna",
+            "La Florida",
+            "La Granja",
+            "La Pintana",
+            "La Reina",
+            "Las Condes",
+            "Lo Barnechea",
+            "Lo Espejo",
+            "Lo Prado",
+            "Macul",
+            "Maipú",
+            "Ñuñoa",
+            "Pedro Aguirre Cerda",
+            "Peñalolén",
+            "Providencia",
+            "Pudahuel",
+            "Quilicura",
+            "Quinta Normal",
+            "Recoleta",
+            "Renca",
+            "San Joaquín",
+            "San Miguel",
+            "San Ramón",
+            "Vitacura"
+        ],
+        "Talagante": [
+            "Talagante",
+            "El Monte",
+            "Isla de Maipo",
+            "Padre Hurtado",
+            "Peñaflor"
+        ]
+    },
+    "Tarapacá": {
+        "Iquique": [
+            "Iquique",
+            "Alto Hospicio"
+        ],
+        "Tamarugal": [
+            "Pozo Almonte",
+            "Camiña",
+            "Colchane",
+            "Huara",
+            "Pica"
+        ]
+    },
+    "Valparaíso": {
+        "Isla de Pascua": [
+            "Isla de Pascua"
+        ],
+        "Los Andes": [
+            "Los Andes",
+            "Calle Larga",
+            "Rinconada",
+            "San Esteban"
+        ],
+        "Marga Marga": [
+            "Quilpué",
+            "Limache",
+            "Olmué",
+            "Villa Alemana"
+        ],
+        "Petorca": [
+            "La Ligua",
+            "Cabildo",
+            "Papudo",
+            "Petorca",
+            "Zapallar"
+        ],
+        "Quillota": [
+            "Quillota",
+            "Calera",
+            "Hijuelas",
+            "La Cruz",
+            "Nogales"
+        ],
+        "San Antonio": [
+            "San Antonio",
+            "Algarrobo",
+            "Cartagena",
+            "El Quisco",
+            "El Tabo",
+            "Santo Domingo"
+        ],
+        "San Felipe de Aconcagua": [
+            "San Felipe",
+            "Catemu",
+            "Llaillay",
+            "Panquehue",
+            "Putaendo",
+            "Santa María"
+        ],
+        "Valparaíso": [
+            "Valparaíso",
+            "Casablanca",
+            "Concón",
+            "Juan Fernández",
+            "Puchuncaví",
+            "Quintero",
+            "Viña del Mar"
+        ]
+    },
+    "Ñuble": {
+        "Diguillin": [
+            "Chillán",
+            "Bulnes",
+            "Chillán Viejo",
+            "El Carmen",
+            "Pemuco",
+            "Pinto",
+            "Quillón",
+            "San Ignacio",
+            "Yungay"
+        ],
+        "Itata": [
+            "Quirihue",
+            "Cobquecura",
+            "Coelemu",
+            "Ninhue",
+            "Portezuelo",
+            "Ranquil",
+            "Treguaco"
+        ],
+        "Punilla": [
+            "San Carlos",
+            "Coihueco",
+            "Ñiquén",
+            "San Fabián",
+            "San Nicolás"
+        ]
+    }
+}
