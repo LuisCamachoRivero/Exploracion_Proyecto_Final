@@ -16,3 +16,4 @@ xgboost
 bcchapi
 bs4
 statsmodels
+streamlit
