@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 import matplotlib.pyplot as plt
 
 
+
 model = load(open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/models/xgboost_regressor_lr_0_15_mx_dp_8_n_esti_310_42.pkl', 'rb'))
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_origen_dict.json', 'r', encoding='utf-8') as f:
     region_origen_dict = json.load(f)
@@ -22,6 +23,7 @@ with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/proces
     cut_provincia_dict = json.load(f)
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/cut_region_dict.json', 'r', encoding='utf-8') as f:
     cut_region_dict = json.load(f)
+
 
 def obtener_info(region, region_dict, tipo='provincias', provincia=None):
     if region not in region_dict:
@@ -58,67 +60,99 @@ def buscar_cut(diccionario, entidad):
     return resultado
 
 
+ms = st.session_state
+if "themes" not in ms: 
+  ms.themes = {"current_theme": "light",
+                    "refreshed": True,
+                    
+                    "light": {"theme.base": "dark",
+                              "theme.backgroundColor": "black",
+                              "theme.primaryColor": "#5591f5",
+                              "theme.secondaryBackgroundColor": "#82E1D7",
+                              "theme.textColor": "white",
+                              "theme.textColor": "white",
+                              "button_face": "🌜"},
+
+                    "dark":  {"theme.base": "light",
+                              "theme.backgroundColor": "white",
+                              "theme.primaryColor": "#5591f5",
+                              "theme.secondaryBackgroundColor": "#82E1D7",
+                              "theme.textColor": "#0a1464",
+                              "button_face": "🌞"},
+                    }
+  
+
+def ChangeTheme():
+  previous_theme = ms.themes["current_theme"]
+  tdict = ms.themes["light"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]
+  for vkey, vval in tdict.items(): 
+    if vkey.startswith("theme"): st._config.set_option(vkey, vval)
+
+  ms.themes["refreshed"] = False
+  if previous_theme == "dark": ms.themes["current_theme"] = "light"
+  elif previous_theme == "light": ms.themes["current_theme"] = "dark"
+
+
+btn_face = ms.themes["light"]["button_face"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]["button_face"]
+st.sidebar.button(btn_face, on_click=ChangeTheme)
+
+if ms.themes["refreshed"] == False:
+  ms.themes["refreshed"] = True
+  st.rerun()
+
 
 
 st.title('Predicción Viajes Ocasionales Chile')
-
+st.logo('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/interim/TourData-remove-background.com.png')
 
 nombre_regiones_origen = list(region_origen_dict.keys())
-option = st.selectbox(
+option = st.sidebar.selectbox(
     "Región de Origen:",
     (nombre_regiones_origen),
     key='selectbox_1'
 )
-st.write("You selected:", option)
 
-option2 = st.selectbox(
+option2 = st.sidebar.selectbox(
     "Provincia Origen:",
     (obtener_info(option, region_origen_dict, tipo='provincias')),
     key='selectbox_2'
 )
-st.write("You selected:", option2)
 
-option3 = st.selectbox(
+option3 = st.sidebar.selectbox(
     "Comuna Origen:",
     (obtener_info(option, region_origen_dict, tipo='comunas',provincia=option2)),
     key='selectbox_3'
 )
-st.write("You selected:", option3)
-
-
-
 
 nombre_regiones_destino = list(region_destino_dict.keys())
-option4 = st.selectbox(
+option4 = st.sidebar.selectbox(
     "Región Destino:",
     (nombre_regiones_destino),
     key='selectbox_4'
 )
-st.write("You selected:", option4)
 
-option5 = st.selectbox(
+option5 = st.sidebar.selectbox(
     "Provincia Destino:",
     (obtener_info(option4, region_destino_dict, tipo='provincias')),
     key='selectbox_5'
 )
-st.write("You selected:", option5)
 
-option6 = st.selectbox(
+option6 = st.sidebar.selectbox(
     "Comuna Destino:",
     (obtener_info(option4, region_destino_dict, tipo='comunas',provincia=option5)),
     key='selectbox_6'
 )
-st.write("You selected:", option6)
 
-cantidad_meses_a_predecir = st.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
+
+cantidad_meses_a_predecir = st.sidebar.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
 mes_anio = calcular_meses(cantidad_meses_a_predecir)
 
 temporada = consultar_temporada(option, mes_anio[0][0], region_temp_dict)
 
-proyeccion_pib_origen = st.slider('Proyección varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1)
+proyeccion_pib_origen = st.sidebar.slider('Proyección varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_origen = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
 
-proyeccion_pib_destino = st.slider('Proyección varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1)
+proyeccion_pib_destino = st.sidebar.slider('Proyección varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_destino = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
 
@@ -183,13 +217,13 @@ for i in range(cantidad_meses_a_predecir):
     pib_destino_base = pib_destino_ajustado
 
 # Mostrar el dataframe final con todas las predicciones
-st.write("Predicciones:", predicciones_df)
+st.write("Consulta a realizar :", predicciones_df)
 
 
 
 
 
-if st.button('Prediction'):
+if st.sidebar.button('Predecir'):
 
     # Realizar predicciones en lote usando el DataFrame de entrada
     predicciones = model.predict(predicciones_trans_df)
@@ -204,7 +238,7 @@ if st.button('Prediction'):
     resultado_df['Predicción Viajes Ocasionales'] = predicciones_redondeadas
 
     # Mostrar el DataFrame con las predicciones
-    st.write("Predicciones con el modelo :", resultado_df[['Anio','CUT Mes','Predicción Viajes Ocasionales']])
+    st.write("Predicciones:", resultado_df[['Anio','CUT Mes','Predicción Viajes Ocasionales']])
 
 
 
@@ -251,3 +285,15 @@ if st.button('Prediction'):
     # Mostrar el gráfico en Streamlit
     st.pyplot(fig)
 
+    def convert_df(df):
+        # IMPORTANT: Cache the conversion to prevent computation on every rerun
+        return df.to_csv().encode("utf-8")
+
+    csv = convert_df(resultado_df)
+
+    st.download_button(
+        label="Descargar data como CSV",
+        data=csv,
+        file_name="prediccion_realizada.csv",
+        mime="text/csv",
+    )
