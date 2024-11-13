@@ -242,53 +242,54 @@ if st.sidebar.button('Predecir'):
 
 
 
+    if cantidad_meses_a_predecir > 1:
+        # Crear una columna de fecha combinando 'Anio' y 'Mes'
+        resultado_df['Fecha'] = pd.to_datetime(resultado_df['Anio'].astype(str) + '-' + resultado_df['CUT Mes'].astype(str) + '-01')
 
-    # Crear una columna de fecha combinando 'Anio' y 'Mes'
-    resultado_df['Fecha'] = pd.to_datetime(resultado_df['Anio'].astype(str) + '-' + resultado_df['CUT Mes'].astype(str) + '-01')
+        # Ordenar el DataFrame por fecha
+        resultado_df = resultado_df.sort_values('Fecha')
 
-    # Ordenar el DataFrame por fecha
-    resultado_df = resultado_df.sort_values('Fecha')
+        # Crear el gráfico de serie de tiempo
+        fig, ax = plt.subplots(figsize=(12, 6))
 
-    # Crear el gráfico de serie de tiempo
-    fig, ax = plt.subplots(figsize=(12, 6))
+        # Definir colores para las temporadas
+        colors = {1: 'r', 0: 'b'}  # 1: Temporada alta (roja), 0: Temporada baja (azul)
 
-    # Definir colores para las temporadas
-    colors = {1: 'r', 0: 'b'}  # 1: Temporada alta (roja), 0: Temporada baja (azul)
+        # Iterar sobre el DataFrame y dibujar cada segmento con el color correspondiente a la temporada
+        for i in range(1, len(resultado_df)):
+            color = colors[resultado_df['CUT Temporada'].iloc[i]]
+            ax.plot(resultado_df['Fecha'].iloc[i-1:i+1], 
+                    resultado_df['Predicción Viajes Ocasionales'].iloc[i-1:i+1], 
+                    color=color, linestyle='-', linewidth=2)
 
-    # Iterar sobre el DataFrame y dibujar cada segmento con el color correspondiente a la temporada
-    for i in range(1, len(resultado_df)):
-        color = colors[resultado_df['CUT Temporada'].iloc[i]]
-        ax.plot(resultado_df['Fecha'].iloc[i-1:i+1], 
-                resultado_df['Predicción Viajes Ocasionales'].iloc[i-1:i+1], 
-                color=color, linestyle='-', linewidth=2)
+        # Etiquetas y títulos
+        ax.set_ylabel('Cantidad de Viajes Ocasionales')
+        ax.set_title('Predicciones de Viajes Ocasionales')
 
-    # Etiquetas y títulos
-    ax.set_ylabel('Cantidad de Viajes Ocasionales')
-    ax.set_title('Predicciones de Viajes Ocasionales')
+        # Mostrar todas las fechas en el eje x
+        ax.set_xticks(resultado_df['Fecha'])
+        ax.set_xticklabels(resultado_df['Fecha'].dt.strftime('%Y-%m'), rotation=45, ha='right')
 
-    # Mostrar todas las fechas en el eje x
-    ax.set_xticks(resultado_df['Fecha'])
-    ax.set_xticklabels(resultado_df['Fecha'].dt.strftime('%Y-%m'), rotation=45, ha='right')
+        # Agregar leyenda personalizada
+        from matplotlib.lines import Line2D
+        legend_elements = [
+            Line2D([0], [0], color='r', lw=2, label='Temporada Alta'),
+            Line2D([0], [0], color='b', lw=2, label='Temporada Baja')
+        ]
+        ax.legend(handles=legend_elements, loc='upper left')
 
-    # Agregar leyenda personalizada
-    from matplotlib.lines import Line2D
-    legend_elements = [
-        Line2D([0], [0], color='r', lw=2, label='Temporada Alta'),
-        Line2D([0], [0], color='b', lw=2, label='Temporada Baja')
-    ]
-    ax.legend(handles=legend_elements, loc='upper left')
+        # Configuración adicional
+        ax.grid()
+        plt.tight_layout()
 
-    # Configuración adicional
-    ax.grid()
-    plt.tight_layout()
-
-    # Mostrar el gráfico en Streamlit
-    st.pyplot(fig)
+        # Mostrar el gráfico en Streamlit
+        st.pyplot(fig)
 
     def convert_df(df):
         # IMPORTANT: Cache the conversion to prevent computation on every rerun
         return df.to_csv().encode("utf-8")
 
+    
     csv = convert_df(resultado_df)
 
     st.download_button(
