@@ -121,39 +121,63 @@ proyeccion_pib_destino = st.slider('Proyección varianza mensual de Region Desti
 pib_destino = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
 
-
-consulta = pd.DataFrame({
-    'Comuna Origen': [option3],
-    'Provincia Origen': [option2],
-    'Region Origen': [option],
-    'Comuna Destino': [option6],
-    'Provincia Destino': [option5],
-    'Region Destino': [option4],
-    'Anio': [mes_anio[0][1]],
-    'Mes': [mes_anio[0][0]],
-    'Temporada': [temporada],
-    'PIB Region Origen': [pib_origen],
-    'PIB Region Destino': [pib_destino],
-    'covid_periodo_num': [0],
-})
+predicciones_df = pd.DataFrame()
+predicciones_trans_df = pd.DataFrame()
 
 
-consulta_trans = pd.DataFrame({
-    'CUT Comuna Origen': [buscar_cut(cut_comuna_dict, option3)],
-    'CUT Provincia Origen': [buscar_cut(cut_provincia_dict, option2)],
-    'CUT Region Origen': [buscar_cut(cut_region_dict, option)],
-    'CUT Comuna Destino': [buscar_cut(cut_comuna_dict, option6)],
-    'CUT Provincia Destino': [buscar_cut(cut_provincia_dict, option5)],
-    'CUT Region Destino': [buscar_cut(cut_region_dict, option4)],
-    'Anio': [mes_anio[0][1]],
-    'CUT Mes': [mes_anio[0][0]],
-    'CUT Temporada': [temporada],
-    'PIB Region Origen': [pib_origen],
-    'PIB Region Destino': [pib_destino],
-    'covid_periodo_num': [0],
-})
+# Loop para iterar por la cantidad de meses a predecir
+for i in range(cantidad_meses_a_predecir):
+    # Calcular el mes y año usando la función calcular_meses
+    mes, anio = mes_anio[i]
+    
+    # Consultar la temporada para la región y el mes correspondiente
+    temporada = consultar_temporada(option, mes, region_temp_dict)
 
-st.write("consulta:", consulta)
+    # Calcular el PIB ajustado para región origen y destino
+    pib_origen_ajustado = pib_origen * (1 + proyeccion_pib_origen / 100)
+    pib_destino_ajustado = pib_destino * (1 + proyeccion_pib_destino / 100)
+
+    # Crear la fila para el dataframe original de consulta
+    fila_consulta = {
+        'Comuna Origen': option3,
+        'Provincia Origen': option2,
+        'Region Origen': option,
+        'Comuna Destino': option6,
+        'Provincia Destino': option5,
+        'Region Destino': option4,
+        'Anio': anio,
+        'Mes': mes,
+        'Temporada': temporada,
+        'PIB Region Origen': pib_origen_ajustado,
+        'PIB Region Destino': pib_destino_ajustado,
+        'covid_periodo_num': 0
+    }
+    
+    # Crear la fila para el dataframe transformado con los CUT
+    fila_trans = {
+        'CUT Comuna Origen': buscar_cut(cut_comuna_dict, option3),
+        'CUT Provincia Origen': buscar_cut(cut_provincia_dict, option2),
+        'CUT Region Origen': buscar_cut(cut_region_dict, option),
+        'CUT Comuna Destino': buscar_cut(cut_comuna_dict, option6),
+        'CUT Provincia Destino': buscar_cut(cut_provincia_dict, option5),
+        'CUT Region Destino': buscar_cut(cut_region_dict, option4),
+        'Anio': anio,
+        'CUT Mes': mes,
+        'CUT Temporada': temporada,
+        'PIB Region Origen': pib_origen_ajustado,
+        'PIB Region Destino': pib_destino_ajustado,
+        'covid_periodo_num': 0
+    }
+
+    # Agregar la fila al dataframe de predicciones
+    predicciones_df = pd.concat([predicciones_df, pd.DataFrame([fila_consulta])], ignore_index=True)
+    predicciones_trans_df = pd.concat([predicciones_trans_df, pd.DataFrame([fila_trans])], ignore_index=True)
+
+# Mostrar el dataframe final con todas las predicciones
+st.write("Predicciones:", predicciones_df)
+st.write("Predicciones Transformadas (con CUT):", predicciones_trans_df)
+
+
 
 
 if st.button('Prediction'):
