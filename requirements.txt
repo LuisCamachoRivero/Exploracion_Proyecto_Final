@@ -17,3 +17,5 @@ bcchapi
 bs4
 statsmodels
 streamlit
+folium
+streamlit_folium
