@@ -1,3 +1,4 @@
+# Librerías
 from pickle import load
 import streamlit as st
 import pandas as pd
@@ -5,9 +6,10 @@ import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import matplotlib.pyplot as plt
+import folium
+from streamlit_folium import st_folium
 
-
-
+# Modelo y Diccionarios
 model = load(open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/models/xgboost_regressor_lr_0_15_mx_dp_8_n_esti_310_42.pkl', 'rb'))
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_origen_dict.json', 'r', encoding='utf-8') as f:
     region_origen_dict = json.load(f)
@@ -23,9 +25,10 @@ with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/proces
     cut_provincia_dict = json.load(f)
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/cut_region_dict.json', 'r', encoding='utf-8') as f:
     cut_region_dict = json.load(f)
+logo='/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/interim/TourData-remove-background.com.png'
 
-
-def obtener_info(region, region_dict, tipo='provincias', provincia=None):
+# Funciones
+def obtener_info(region, region_dict, tipo='provincias', provincia=None): 
     if region not in region_dict:
         return f"La región '{region}' no se encuentra en el diccionario."
     if tipo == 'provincias' and provincia is None:
@@ -58,8 +61,12 @@ def consultar_temporada(region, mes, region_mes_dict_str_keys):
 def buscar_cut(diccionario, entidad):
     resultado = diccionario.get(entidad, "La entidad no fue encontrada en el diccionario.")
     return resultado
+    
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode("utf-8")
 
-
+# Cambio de Temas (Light/Dark)
 ms = st.session_state
 if "themes" not in ms: 
   ms.themes = {"current_theme": "light",
@@ -81,7 +88,6 @@ if "themes" not in ms:
                               "button_face": "🌞"},
                     }
   
-
 def ChangeTheme():
   previous_theme = ms.themes["current_theme"]
   tdict = ms.themes["light"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]
@@ -92,7 +98,6 @@ def ChangeTheme():
   if previous_theme == "dark": ms.themes["current_theme"] = "light"
   elif previous_theme == "light": ms.themes["current_theme"] = "dark"
 
-
 btn_face = ms.themes["light"]["button_face"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]["button_face"]
 st.sidebar.button(btn_face, on_click=ChangeTheme)
 
@@ -100,11 +105,37 @@ if ms.themes["refreshed"] == False:
   ms.themes["refreshed"] = True
   st.rerun()
 
+@st.dialog("Bienvenid@")
+def introduccion():
+    st.write(f"Esta es una herramienta creada como proyecto final del Bootcamp de Data Science &\
+        Machine Learning de 4Geeks")
+if "introduccion" not in st.session_state:
+    introduccion()
+    st.session_state["introduccion"] = True
 
 
-st.title('Predicción Viajes Ocasionales Chile')
-st.logo('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/interim/TourData-remove-background.com.png')
 
+# APP 
+st.logo(logo)
+col1, col2 = st.columns(2,vertical_alignment="center")
+with col1:
+    st.image(logo)
+with col2:
+    st.title('Predicción Viajes Ocasionales Chile')
+    
+
+# Mapas
+col1, col2 = st.columns(2,vertical_alignment="center")
+map = folium.Map(location=[-36.523557,-70.206001],zoom_start=5)
+map_regiones = '/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/interim/mapa-01-2.png'
+with col1:
+    st_map =st_folium(map, width=450, height=470)
+with col2:
+    st.image(map_regiones, width=450)
+
+
+
+st.sidebar.title('Origen de los viajes:')
 nombre_regiones_origen = list(region_origen_dict.keys())
 option = st.sidebar.selectbox(
     "Región de Origen:",
@@ -124,6 +155,11 @@ option3 = st.sidebar.selectbox(
     key='selectbox_3'
 )
 
+proyeccion_pib_origen = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
+pib_origen = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
+
+
+st.sidebar.title('Destino de los viajes:')
 nombre_regiones_destino = list(region_destino_dict.keys())
 option4 = st.sidebar.selectbox(
     "Región Destino:",
@@ -143,17 +179,16 @@ option6 = st.sidebar.selectbox(
     key='selectbox_6'
 )
 
+proyeccion_pib_destino = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
+pib_destino = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
+
 
 cantidad_meses_a_predecir = st.sidebar.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
 mes_anio = calcular_meses(cantidad_meses_a_predecir)
 
 temporada = consultar_temporada(option, mes_anio[0][0], region_temp_dict)
 
-proyeccion_pib_origen = st.sidebar.slider('Proyección varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
-pib_origen = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
 
-proyeccion_pib_destino = st.sidebar.slider('Proyección varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
-pib_destino = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
 
 # Crear un dataframe vacío para almacenar las predicciones
@@ -217,8 +252,8 @@ for i in range(cantidad_meses_a_predecir):
     pib_destino_base = pib_destino_ajustado
 
 # Mostrar el dataframe final con todas las predicciones
-st.write("Consulta a realizar :", predicciones_df)
-
+st.title("Consulta a realizar :")
+st.write(predicciones_df)
 
 
 
@@ -238,7 +273,8 @@ if st.sidebar.button('Predecir'):
     resultado_df['Predicción Viajes Ocasionales'] = predicciones_redondeadas
 
     # Mostrar el DataFrame con las predicciones
-    st.write("Predicciones:", resultado_df[['Anio','CUT Mes','Predicción Viajes Ocasionales']])
+    st.title('Predicciones: ')
+    st.write(resultado_df[['Anio','CUT Mes','Predicción Viajes Ocasionales']])
 
 
 
@@ -285,10 +321,6 @@ if st.sidebar.button('Predecir'):
         # Mostrar el gráfico en Streamlit
         st.pyplot(fig)
 
-    def convert_df(df):
-        # IMPORTANT: Cache the conversion to prevent computation on every rerun
-        return df.to_csv().encode("utf-8")
-
     
     csv = convert_df(resultado_df)
 
@@ -298,3 +330,4 @@ if st.sidebar.button('Predecir'):
         file_name="prediccion_realizada.csv",
         mime="text/csv",
     )
+
