@@ -293,8 +293,8 @@ if st.sidebar.button('Predecir'):
 
         from matplotlib.lines import Line2D
         legend_elements = [
-            Line2D([0], [0], color='r', lw=2, label='Temporada Alta'),
-            Line2D([0], [0], color='b', lw=2, label='Temporada Baja')
+            Line2D([0], [0], color='r', lw=2, label='Temporada Región Alta'),
+            Line2D([0], [0], color='b', lw=2, label='Temporada Región Baja')
         ]
         ax.legend(handles=legend_elements, loc='upper left')
 
