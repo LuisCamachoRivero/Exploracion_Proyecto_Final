@@ -65,8 +65,6 @@ def buscar_cut(diccionario, entidad):
 def convert_df(df):
     return df.to_csv().encode("utf-8")
 
-
-
 # Cambio de Temas (Light/Dark)
 ms = st.session_state
 if "themes" not in ms: 
@@ -108,6 +106,18 @@ if ms.themes["refreshed"] == False:
 
 
 
+@st.dialog('Bienvenid@')
+def introduccion():
+    st.write("Bienvenid@")
+    st.write("Esta es una herramienta creada como proyecto final del Bootcamp de Data Science & Machine Learning de 4Geeks")
+    st.session_state.update({"introduccion": True})
+
+# Mostrar la introducción solo la primera vez
+if "introduccion" not in st.session_state or not st.session_state.introduccion:
+    introduccion()
+    st.session_state.update({"introduccion": False})
+
+
 # APP 
 st.logo(logo)
 col1, col2 = st.columns(2,vertical_alignment="center")
@@ -126,17 +136,8 @@ with col1:
 with col2:
     st.image(map_regiones, width=450)
 
-# Texto de introducción
-@st.dialog("Bienvenid@")
-def introduccion():
-    st.write(f"Esta es una herramienta creada como proyecto final del Bootcamp de Data Science &\
-        Machine Learning de 4Geeks")
-    st.session_state["introduccion"] = True
-    
-if "introduccion" not in st.session_state:
-    introduccion()
-    
-# Recoleción de Dator Origen 
+
+
 st.sidebar.title('Origen de los viajes:')
 nombre_regiones_origen = list(region_origen_dict.keys())
 option = st.sidebar.selectbox(
@@ -160,7 +161,7 @@ option3 = st.sidebar.selectbox(
 proyeccion_pib_origen = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_origen = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
 
-# Recolección Datos Destino
+
 st.sidebar.title('Destino de los viajes:')
 nombre_regiones_destino = list(region_destino_dict.keys())
 option4 = st.sidebar.selectbox(
@@ -184,27 +185,32 @@ option6 = st.sidebar.selectbox(
 proyeccion_pib_destino = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_destino = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
-# Meses a predecir 
-cantidad_meses_a_predecir = st.sidebar.slider('Cantidad de meses a predecir (partiendo del 06-2024)', min_value=1, max_value=12, step=1)
+
+cantidad_meses_a_predecir = st.sidebar.slider('Cantidad de meses a predecir', min_value=1, max_value=12, step=1)
 mes_anio = calcular_meses(cantidad_meses_a_predecir)
 
-# Busqueda de temporada por región seleccionada
 temporada = consultar_temporada(option, mes_anio[0][0], region_temp_dict)
 
 
 
 
-# Tratamiento de datos para predicciones
+# Crear un dataframe vacío para almacenar las predicciones
 predicciones_df = pd.DataFrame()
 predicciones_trans_df = pd.DataFrame()
 
+# Inicializar el PIB base para la primera iteración
 pib_origen_base = pib_origen
 pib_destino_base = pib_destino
 
 # Loop para iterar por la cantidad de meses a predecir
 for i in range(cantidad_meses_a_predecir):
+    # Calcular el mes y año usando la función calcular_meses
     mes, anio = mes_anio[i]
+    
+    # Consultar la temporada para la región y el mes correspondiente
     temporada = consultar_temporada(option, mes, region_temp_dict)
+
+    # Calcular el PIB ajustado usando el PIB base de la iteración anterior
     pib_origen_ajustado = pib_origen_base * (1 + proyeccion_pib_origen / 100)
     pib_destino_ajustado = pib_destino_base * (1 + proyeccion_pib_destino / 100)
 
@@ -244,6 +250,7 @@ for i in range(cantidad_meses_a_predecir):
     predicciones_df = pd.concat([predicciones_df, pd.DataFrame([fila_consulta])], ignore_index=True)
     predicciones_trans_df = pd.concat([predicciones_trans_df, pd.DataFrame([fila_trans])], ignore_index=True)
 
+    # Actualizar el PIB base para la siguiente iteración
     pib_origen_base = pib_origen_ajustado
     pib_destino_base = pib_destino_ajustado
 
@@ -252,13 +259,20 @@ st.title("Consulta a realizar :")
 st.write(predicciones_df)
 
 
-# Predicciones
+
 
 if st.sidebar.button('Predecir'):
 
+    # Realizar predicciones en lote usando el DataFrame de entrada
     predicciones = model.predict(predicciones_trans_df)
+
+    # Redondear las predicciones al valor entero más cercano
     predicciones_redondeadas = [int(abs(round(pred))) for pred in predicciones]
+
+    # Crear una copia del DataFrame original de predicciones transformadas
     resultado_df = predicciones_trans_df.copy()
+
+    # Agregar la columna de predicción redondeada
     resultado_df['Predicción Viajes Ocasionales'] = predicciones_redondeadas
 
     # Mostrar el DataFrame con las predicciones
@@ -268,28 +282,34 @@ if st.sidebar.button('Predecir'):
 
 
     if cantidad_meses_a_predecir > 1:
+        # Crear una columna de fecha combinando 'Anio' y 'Mes'
         resultado_df['Fecha'] = pd.to_datetime(resultado_df['Anio'].astype(str) + '-' + resultado_df['CUT Mes'].astype(str) + '-01')
 
+        # Ordenar el DataFrame por fecha
         resultado_df = resultado_df.sort_values('Fecha')
 
         # Crear el gráfico de serie de tiempo
         fig, ax = plt.subplots(figsize=(12, 6))
 
         # Definir colores para las temporadas
-        colors = {1: 'r', 0: 'b'}  
+        colors = {1: 'r', 0: 'b'}  # 1: Temporada alta (roja), 0: Temporada baja (azul)
 
+        # Iterar sobre el DataFrame y dibujar cada segmento con el color correspondiente a la temporada
         for i in range(1, len(resultado_df)):
             color = colors[resultado_df['CUT Temporada'].iloc[i]]
             ax.plot(resultado_df['Fecha'].iloc[i-1:i+1], 
                     resultado_df['Predicción Viajes Ocasionales'].iloc[i-1:i+1], 
                     color=color, linestyle='-', linewidth=2)
 
+        # Etiquetas y títulos
         ax.set_ylabel('Cantidad de Viajes Ocasionales')
         ax.set_title('Predicciones de Viajes Ocasionales')
 
+        # Mostrar todas las fechas en el eje x
         ax.set_xticks(resultado_df['Fecha'])
         ax.set_xticklabels(resultado_df['Fecha'].dt.strftime('%Y-%m'), rotation=45, ha='right')
 
+        # Agregar leyenda personalizada
         from matplotlib.lines import Line2D
         legend_elements = [
             Line2D([0], [0], color='r', lw=2, label='Temporada Alta'),
@@ -297,13 +317,14 @@ if st.sidebar.button('Predecir'):
         ]
         ax.legend(handles=legend_elements, loc='upper left')
 
+        # Configuración adicional
         ax.grid()
         plt.tight_layout()
 
         # Mostrar el gráfico en Streamlit
         st.pyplot(fig)
 
-    # Descargar el DF resultado
+    
     csv = convert_df(resultado_df)
 
     st.download_button(
