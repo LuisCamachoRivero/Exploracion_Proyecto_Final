@@ -126,16 +126,6 @@ with col1:
 with col2:
     st.image(map_regiones, width=450)
 
-# Texto de introducción
-@st.dialog("Bienvenid@")
-def introduccion():
-    st.write(f"Esta es una herramienta creada como proyecto final del Bootcamp de Data Science &\
-        Machine Learning de 4Geeks")
-    st.session_state["introduccion"] = True
-    
-if "introduccion" not in st.session_state:
-    introduccion()
-    
 # Recoleción de Dator Origen 
 st.sidebar.title('Origen de los viajes:')
 nombre_regiones_origen = list(region_origen_dict.keys())
@@ -185,7 +175,7 @@ proyeccion_pib_destino = st.sidebar.slider('Proyección porcentual (%) varianza 
 pib_destino = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
 # Meses a predecir 
-st.title('Cantidad de meses a predecir:')
+st.sidebar.title('Cantidad de meses a predecir:')
 cantidad_meses_a_predecir = st.sidebar.slider('(Partiendo del 06-2024)', min_value=1, max_value=12, step=1)
 mes_anio = calcular_meses(cantidad_meses_a_predecir)
 
