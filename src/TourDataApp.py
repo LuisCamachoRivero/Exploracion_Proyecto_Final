@@ -121,7 +121,7 @@ with col2:
 # Mapas
 col1, col2 = st.columns(2,vertical_alignment="center")
 map = folium.Map(location=[-36.523557,-70.206001],zoom_start=5)
-map_regiones = '/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/interim/mapa-01-2.png'
+map_regiones = '/opt/render/project/src/data/interim/mapa-01-2.png'
 with col1:
     st_map =st_folium(map, width=450, height=470)
 with col2:
