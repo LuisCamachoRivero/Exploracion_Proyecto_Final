@@ -22,7 +22,7 @@ with open('/opt/render/project/src/data/processed/region_pib_dict.json', 'r', en
     region_pib_dict = json.load(f)
 with open('/opt/render/project/src/data/processed/cut_comuna_dict.json', 'r', encoding='utf-8') as f:
     cut_comuna_dict = json.load(f)
-with open('/opt/render/project/srcl/data/processed/cut_provincia_dict.json', 'r', encoding='utf-8') as f:
+with open('/opt/render/project/src/data/processed/cut_provincia_dict.json', 'r', encoding='utf-8') as f:
     cut_provincia_dict = json.load(f)
 with open('/opt/render/project/src/data/processed/cut_region_dict.json', 'r', encoding='utf-8') as f:
     cut_region_dict = json.load(f)
