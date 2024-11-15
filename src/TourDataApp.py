@@ -9,8 +9,9 @@ import matplotlib.pyplot as plt
 import folium
 from streamlit_folium import st_folium
 
+
 # Modelo y Diccionarios
-model = load(open('../models/xgboost_regressor_lr_0_15_mx_dp_8_n_esti_310_42.pkl', 'rb'))
+model = load(open('/opt/render/project/models/xgboost_regressor_lr_0_15_mx_dp_8_n_esti_310_42.pkl', 'rb'))
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_origen_dict.json', 'r', encoding='utf-8') as f:
     region_origen_dict = json.load(f)
 with open('/Users/luiscamacho/VSCProjects/Exploracion_Proyecto_Final/data/processed/region_destino_dict.json', 'r', encoding='utf-8') as f:
