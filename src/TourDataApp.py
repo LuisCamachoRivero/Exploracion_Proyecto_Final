@@ -115,7 +115,7 @@ col1, col2 = st.columns(2,vertical_alignment="center")
 with col1:
     st.image(logo)
 with col2:
-    st.title('Predicción Viajes Ocasionales Chile')
+    st.title('Predicción Viajes Ocasionales en Chile')
     
 
 # Mapas
@@ -148,7 +148,7 @@ option3 = st.sidebar.selectbox(
     key='selectbox_3'
 )
 
-proyeccion_pib_origen = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
+proyeccion_pib_origen = st.sidebar.slider('Proyección Porcentual (%) de la Varianza Mensual de la Región de Origen', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_origen = (region_pib_dict.get(option, "Región no encontrada")) * (1 + proyeccion_pib_origen / 100)
 
 # Recolección Datos Destino
@@ -172,7 +172,7 @@ option6 = st.sidebar.selectbox(
     key='selectbox_6'
 )
 
-proyeccion_pib_destino = st.sidebar.slider('Proyección porcentual (%) varianza mensual de Region Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
+proyeccion_pib_destino = st.sidebar.slider('Proyección porcentual (%) varianza mensual de la Región Destino', min_value=-1.5, max_value=1.5, step=0.1,value=0.0)
 pib_destino = (region_pib_dict.get(option4, "Región no encontrada")) * (1 + proyeccion_pib_destino / 100)
 
 # Meses a predecir 
@@ -204,16 +204,16 @@ for i in range(cantidad_meses_a_predecir):
     fila_consulta = {
         'Comuna Origen': option3,
         'Provincia Origen': option2,
-        'Region Origen': option,
+        'Región Origen': option,
         'Comuna Destino': option6,
         'Provincia Destino': option5,
-        'Region Destino': option4,
-        'Anio': anio,
+        'Región Destino': option4,
+        'Año': anio,
         'Mes': mes,
         'Temporada': temporada,
-        'PIB Region Origen': pib_origen_ajustado,
-        'PIB Region Destino': pib_destino_ajustado,
-        'covid_periodo_num': 0
+        'PIB Región Origen': pib_origen_ajustado,
+        'PIB Región Destino': pib_destino_ajustado,
+        'Covid': 0
     }
     
     # Crear la fila para el dataframe transformado con los CUT
@@ -255,8 +255,9 @@ if st.sidebar.button('Predecir'):
 
     # Mostrar el DataFrame con las predicciones
     st.title('Predicciones: ')
-    st.write(resultado_df[['Anio','CUT Mes','Predicción Viajes Ocasionales']])
-
+    df_preview = resultado_df[['CUT Mes', 'Anio', 'Predicción Viajes Ocasionales']]
+    df_preview.rename(columns={'Anio': 'Año', 'CUT Mes': 'Mes'}, inplace=True)
+    st.write(df_preview[['Año', 'Mes', 'Predicción Viajes Ocasionales']])
 
 
     if cantidad_meses_a_predecir > 1:
@@ -296,7 +297,8 @@ if st.sidebar.button('Predecir'):
         st.pyplot(fig)
 
     # Descargar el DF resultado
-    csv = convert_df(resultado_df)
+    df_download = resultado_df.drop('Fecha', axis=1)
+    csv = convert_df(df_download)
 
     st.download_button(
         label="Descargar data como CSV",
