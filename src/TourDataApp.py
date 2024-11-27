@@ -299,8 +299,8 @@ if st.sidebar.button('Predecir'):
         st.pyplot(fig)
 
     # Descargar el DF resultado
-    resultado_df.drop('Fecha', axis=1, inplace=True)
-    csv = convert_df(resultado_df)
+    df_download = resultado_df.drop('Fecha', axis=1)
+    csv = convert_df(df_download)
 
     st.download_button(
         label="Descargar data como CSV",
