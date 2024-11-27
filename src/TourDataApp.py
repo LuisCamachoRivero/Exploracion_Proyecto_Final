@@ -255,11 +255,9 @@ if st.sidebar.button('Predecir'):
 
     # Mostrar el DataFrame con las predicciones
     st.title('Predicciones: ')
-    df_preview = resultado_df
-    df_preview.rename(columns={'Anio': 'Año'}, inplace=True)
-    df_preview.rename(columns={'CUT Mes': 'Mes'}, inplace=True)
-    st.write(df_preview[['Año','Mes','Predicción Viajes Ocasionales']])
-
+    df_preview = resultado_df[['CUT Mes', 'Anio', 'Predicción Viajes Ocasionales']]
+    df_preview.rename(columns={'Anio': 'Año', 'CUT Mes': 'Mes'}, inplace=True)
+    st.write(df_preview[['Año', 'Mes', 'Predicción Viajes Ocasionales']])
 
 
     if cantidad_meses_a_predecir > 1:
