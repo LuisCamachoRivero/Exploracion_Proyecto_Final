@@ -208,7 +208,7 @@ for i in range(cantidad_meses_a_predecir):
         'Comuna Destino': option6,
         'Provincia Destino': option5,
         'Region Destino': option4,
-        'Anio': anio,
+        'Año': anio,
         'Mes': mes,
         'Temporada': temporada,
         'PIB Region Origen': pib_origen_ajustado,
